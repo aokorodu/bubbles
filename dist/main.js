@@ -523,7 +523,7 @@ class App {
     this.particleSVG = document.getElementById("particles");
     this.totalParticles = 50;
     this.particles = [];
-    this.zeroG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0,.1);
+    this.zeroG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0,0);
   }
 
   init() {

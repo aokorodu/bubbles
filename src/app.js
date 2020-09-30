@@ -11,7 +11,7 @@ export class App {
     this.particleSVG = document.getElementById("particles");
     this.totalParticles = 50;
     this.particles = [];
-    this.zeroG = new PVector(0,.1);
+    this.zeroG = new PVector(0,0);
   }
 
   init() {
