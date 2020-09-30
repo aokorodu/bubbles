@@ -1,0 +1,24 @@
+{
+  "name": "demo_animation",
+  "version": "1.0.0",
+  "description": "demo animations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack",
+    "start:dev": "webpack-dev-server"
+  },
+  "author": "Abraham Okorodudu",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "devDependencies": {
+    "css-loader": "^4.3.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1"
+  }
+}
