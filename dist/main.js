@@ -523,20 +523,55 @@ class App {
     this.particleSVG = document.getElementById("particles");
     this.totalParticles = 50;
     this.particles = [];
-    this.zeroG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0,0);
+    this.zeroG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0, 0);
+    this.oneG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0, 1);
+    this.gravity = this.zeroG;
+
   }
 
   init() {
     this.buildParticles();
+    this.initNav();
     this.draw();
+
   }
 
-  buildParticles(){
-    for(let i = 0; i < this.totalParticles; i++){
-      const x = Math.random() * this.w;
-      const y = Math.random() * this.h/2;
+  initNav() {
+    const floatButton = document.getElementById("float");
+    floatButton.addEventListener("click", () => {
+      console.log("float click")
+      this.changeMode("float");
+      this.gravity = this.zeroG;
+    })
+
+    const bounceButton = document.getElementById("bounce");
+    bounceButton.addEventListener("click", () => {
+      console.log("bounce click")
+      this.changeMode("bounce");
+      this.gravity = this.zeroG;
+    })
+
+    const dropButton = document.getElementById("drop");
+    dropButton.addEventListener("click", () => {
+      console.log("drop click")
+      this.changeMode("drop");
+      this.gravity = this.oneG;
+    })
+  }
+
+  changeMode(newMode) {
+    for (let i = 0; i < this.totalParticles; i++) {
+      this.particles[i].changeMode(newMode);
+    }
+  }
+
+  buildParticles() {
+    for (let i = 0; i < this.totalParticles; i++) {
+      const x = 250; //Math.random() * this.w;
+      const y = 250; //Math.random() * this.h/2;
       const b = new _ball__WEBPACK_IMPORTED_MODULE_0__["Ball"](x, y, 10);
       b.init(this.particleSVG, 500, 250);
+      b.changeMode("float");
       this.particles.push(b);
     }
   }
@@ -545,12 +580,12 @@ class App {
     this.ship.classList.add("floatClass");
   }
 
-  draw(){
-    for(const particle of this.particles){
-      particle.move(this.zeroG);
+  draw() {
+    for (const particle of this.particles) {
+      particle.move(this.gravity);
       particle.update();
     }
-    window.requestAnimationFrame(()=>{this.draw()}, 1);
+    window.requestAnimationFrame(() => { this.draw() }, 1);
   }
 }
 
@@ -573,7 +608,7 @@ class Ball {
   constructor(x, y, r) {
     this.origin = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](x, y);
     this.location = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](x, y);
-    this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](Math.random() * 4 - 2, Math.random() * 4 - 2);
+    this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](Math.random() * 4 - 2, Math.random() * 2 - 1);
     this.accel = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](0, 0);
     this.lifeSpan = 255;
     this.maxX;
@@ -586,6 +621,8 @@ class Ball {
     this.stroke = "#ffffff";
     this.strokeWidth = 2;
     this.ns = "http://www.w3.org/2000/svg";
+    this.mode = "bounce";
+    this.friction = .99;
 
   }
 
@@ -595,8 +632,8 @@ class Ball {
   }
 
   setBounds(maxX, maxY) {
-    this.maxX = maxX
-    this.maxY = maxY;
+    this.maxX = maxX - this.r
+    this.maxY = maxY - this.r;
   }
 
   buildCircle(svg) {
@@ -624,14 +661,24 @@ class Ball {
   }
 
   draw() {
-    console.log('this.location.x: ', this.location.x)
     this.circle.setAttribute("cx", this.location.x);
     this.circle.setAttribute("cy", this.location.y);
   }
 
+  changeMode(newMode){
+    if(newMode == this.mode) return;
+
+    this.mode = newMode;
+    if(this.mode == "float"){
+      this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](Math.random() * 1 - .5, Math.random() * 2);
+    } else if(this.mode == "bounce"){
+      this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](this.velocity.x, Math.random() * 4 - 2);
+    }
+  }
+
   bounce() {
-    if (this.location.x < 0) {
-      this.location.x = 0;
+    if (this.location.x < this.r) {
+      this.location.x = this.r;
       this.velocity.x *= -1;
     } else if (this.location.x > this.maxX) {
       this.location.x = this.maxX;
@@ -641,16 +688,38 @@ class Ball {
     if (this.location.y > this.maxY) {
       this.location.y = this.maxY;
       this.velocity.y *= -1;
-    } else if (this.location.y < 0) {
-      this.location.y = 0;
+    } else if (this.location.y < this.r) {
+      this.location.y = this.r;
       this.velocity.y *= -1;
     }
 
-    //this.velocity.multiply(this.friction);
+    if(this.mode != "drop") return;
+
+    this.velocity.multiply(this.friction);
+  }
+
+  float() {
+    if(this.velocity.y > 0) this.velocity.y *= -1;
+    if (this.location.x < 0) {
+      this.location.x = this.maxX;
+    } else if (this.location.x > this.maxX) {
+      this.location.x = 0;
+    }
+
+  if (this.location.y < 0) {
+      this.location.y = this.maxY;
+    } else if (this.location.y > 250) {
+      this.location.y = this.maxY;
+    }
   }
 
   update(){
-    this.bounce();
+    //this.float();
+    if(this.mode == "float"){
+      this.float()
+    } else {
+      this.bounce()
+    }
     this.draw();
   }
 }
