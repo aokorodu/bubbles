@@ -14,6 +14,7 @@ export class App {
     this.zeroG = new PVector(0, 0);
     this.oneG = new PVector(0, 1);
     this.twoG = new PVector(0, 2);
+    this.lowG = new PVector(0, .5);
     this.gravity = this.zeroG;
 
   }
@@ -44,7 +45,7 @@ export class App {
     flowButton.addEventListener("click", () => {
       console.log("flow click")
       this.changeMode("flow");
-      this.gravity = this.twoG;
+      this.gravity = this.lowG;
     })
 
     const dropButton = document.getElementById("drop");

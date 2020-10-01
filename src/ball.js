@@ -12,13 +12,14 @@ export class Ball {
     this.cx = this.location.x;
     this.cy = this.location.y;
     this.r = 2 + Math.ceil(Math.random() * 6);
+    this.opacity = this.r/25;
     this.circle;
     this.fill = "#ffffff";
     this.stroke = "#ffffff";
     this.strokeWidth = 2;
     this.ns = "http://www.w3.org/2000/svg";
     this.mode = "bounce";
-    this.friction = .99;
+    this.friction = .95 + Math.random() * .045;
 
   }
 
@@ -39,7 +40,7 @@ export class Ball {
     this.circle.setAttribute("cy", this.cy);
     this.circle.setAttribute("r", this.r);
     this.circle.setAttribute("fill", '#ffffff');
-    this.circle.setAttribute("fill-opacity", .3);
+    this.circle.setAttribute("fill-opacity", this.opacity);
     //this.circle.setAttribute("stroke", this.stroke);
     //this.circle.setAttribute("stroke-width", this.strokeWidth);
     svg.appendChild(this.circle);
@@ -115,7 +116,8 @@ export class Ball {
     if (this.location.y > 250) {
       this.location.y = 250;
       this.location.x = this.maxX/2;
-      const yVel = Math.random() * 20 + 20;
+      const yVel = Math.random() * 8+ 8;
+      this.velocity = new PVector(Math.random() * 2 - 1, Math.random() * 4 - 2);
       this.move(new PVector(Math.random() * 1 - .5, -yVel));
     }
   }

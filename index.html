@@ -15,6 +15,17 @@
     <div id="contentHolder">
       <div id="seaLine"></div>
       <div id="shipHolder">
+        <svg id="sky" width="500px" height="250px", viewBox="0 0 500 250">
+          <defs>
+            <radialGradient cx="48.778125%" cy="97.490625%" fx="48.778125%" fy="97.490625%" r="97.5212483%" gradientTransform="translate(0.487781,0.974906),scale(0.500000,1.000000),rotate(-88.564095),translate(-0.487781,-0.974906)" id="radialGradient-1">
+                <stop stop-color="#FFFFFE" offset="0%"></stop>
+                <stop stop-color="#DFAD3D" offset="99.9023438%"></stop>
+            </radialGradient>
+        </defs>
+        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <rect id="Rectangle" fill="url(#radialGradient-1)" x="0" y="0" width="500" height="250"></rect>
+        </g>
+        </svg>
         <svg id="vanguardShip" width="500px" height="250px" viewBox="0 0 500 250">
           <g transform="translate(0, 0)" fill="#000000" fill-rule="nonzero">
             <path
@@ -28,14 +39,12 @@
         <svg id="particles" width="500px" height="250px" viewBox="0 0 500 250">
           <defs>
             <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
-              <stop stop-color="#9BE9FF" offset="0%"></stop>
-              <stop stop-color="#006E97" offset="99.7255068%"></stop>
+              <stop stop-color="#43D0F8" offset="0%"></stop>
+              <stop stop-color="#013C52" offset="99.7255068%"></stop>
               <stop stop-color="#004397" offset="100%"></stop>
             </linearGradient>
           </defs>
-          <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="500" height="250"></rect>
-          </g>
+          <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="500" height="250"></rect>
         </svg>
       </div>
     </div>
