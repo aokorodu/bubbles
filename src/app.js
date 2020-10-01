@@ -9,10 +9,11 @@ export class App {
     this.seaLine = document.getElementById("seaLine");
     this.ship = document.getElementById("vanguardShip");
     this.particleSVG = document.getElementById("particles");
-    this.totalParticles = 50;
+    this.totalParticles = 100;
     this.particles = [];
     this.zeroG = new PVector(0, 0);
     this.oneG = new PVector(0, 1);
+    this.twoG = new PVector(0, 2);
     this.gravity = this.zeroG;
 
   }
@@ -37,6 +38,13 @@ export class App {
       console.log("bounce click")
       this.changeMode("bounce");
       this.gravity = this.zeroG;
+    })
+
+    const flowButton = document.getElementById("flow");
+    flowButton.addEventListener("click", () => {
+      console.log("flow click")
+      this.changeMode("flow");
+      this.gravity = this.twoG;
     })
 
     const dropButton = document.getElementById("drop");

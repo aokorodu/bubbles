@@ -521,10 +521,11 @@ class App {
     this.seaLine = document.getElementById("seaLine");
     this.ship = document.getElementById("vanguardShip");
     this.particleSVG = document.getElementById("particles");
-    this.totalParticles = 50;
+    this.totalParticles = 100;
     this.particles = [];
     this.zeroG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0, 0);
     this.oneG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0, 1);
+    this.twoG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0, 2);
     this.gravity = this.zeroG;
 
   }
@@ -549,6 +550,13 @@ class App {
       console.log("bounce click")
       this.changeMode("bounce");
       this.gravity = this.zeroG;
+    })
+
+    const flowButton = document.getElementById("flow");
+    flowButton.addEventListener("click", () => {
+      console.log("flow click")
+      this.changeMode("flow");
+      this.gravity = this.twoG;
     })
 
     const dropButton = document.getElementById("drop");
@@ -615,7 +623,7 @@ class Ball {
     this.maxY
     this.cx = this.location.x;
     this.cy = this.location.y;
-    this.r = 2 + Math.ceil(Math.random()*6);
+    this.r = 2 + Math.ceil(Math.random() * 6);
     this.circle;
     this.fill = "#ffffff";
     this.stroke = "#ffffff";
@@ -626,7 +634,7 @@ class Ball {
 
   }
 
-  init(svg, maxX, maxY){
+  init(svg, maxX, maxY) {
     this.setBounds(maxX, maxY)
     this.buildCircle(svg);
   }
@@ -649,8 +657,8 @@ class Ball {
     svg.appendChild(this.circle);
   }
 
-  randomColor(){
-    return Math.round(Math.random()*255)
+  randomColor() {
+    return Math.round(Math.random() * 255)
   }
 
   move(newForce) {
@@ -665,13 +673,15 @@ class Ball {
     this.circle.setAttribute("cy", this.location.y);
   }
 
-  changeMode(newMode){
-    if(newMode == this.mode) return;
+  changeMode(newMode) {
+    if (newMode == this.mode) return;
 
     this.mode = newMode;
-    if(this.mode == "float"){
+    if (this.mode == "float") {
       this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](Math.random() * 1 - .5, Math.random() * 2);
-    } else if(this.mode == "bounce"){
+    } else if (this.mode == "bounce") {
+      this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](this.velocity.x, Math.random() * 4 - 2);
+    } else if (this.mode == "flow") {
       this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](this.velocity.x, Math.random() * 4 - 2);
     }
   }
@@ -693,32 +703,47 @@ class Ball {
       this.velocity.y *= -1;
     }
 
-    if(this.mode != "drop") return;
+    if (this.mode != "drop") return;
 
     this.velocity.multiply(this.friction);
   }
 
   float() {
-    if(this.velocity.y > 0) this.velocity.y *= -1;
+    if (this.velocity.y > 0) this.velocity.y *= -1;
     if (this.location.x < 0) {
       this.location.x = this.maxX;
     } else if (this.location.x > this.maxX) {
       this.location.x = 0;
     }
 
-  if (this.location.y < 0) {
+    if (this.location.y < 0) {
       this.location.y = this.maxY;
     } else if (this.location.y > 250) {
       this.location.y = this.maxY;
     }
   }
 
-  update(){
+  flow() {
+    if (this.location.y > 250) {
+      this.location.y = 250;
+      this.location.x = this.maxX/2;
+      const yVel = Math.random() * 20 + 20;
+      this.move(new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](Math.random() * 1 - .5, -yVel));
+    }
+  }
+
+
+
+  update() {
     //this.float();
-    if(this.mode == "float"){
+    if (this.mode == "float") {
       this.float()
-    } else {
+    } else if (this.mode == "bounce"){
       this.bounce()
+    } else if (this.mode == "drop"){
+      this.bounce()
+    } else {
+      this.flow();
     }
     this.draw();
   }
