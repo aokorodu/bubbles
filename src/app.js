@@ -41,10 +41,10 @@ export class App {
       this.gravity = this.zeroG;
     })
 
-    const bounceButton = document.getElementById("bounce");
+    const bounceButton = document.getElementById("orbit");
     bounceButton.addEventListener("click", () => {
-      console.log("bounce click")
-      this.changeMode("bounce");
+      console.log("orbit click")
+      this.changeMode("orbit");
       this.gravity = this.zeroG;
     })
 

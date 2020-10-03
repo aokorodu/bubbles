@@ -122,14 +122,24 @@ export class Ball {
     }
   }
 
+  orbit(){
+    const targetV = new PVector(250, 125);
+    targetV.sub(this.location);
+    targetV.normalize();
+    targetV.multiply(.1);
+    this.move(targetV);
+    this.velocity.multiply(.999);
+
+  }
+
 
 
   update() {
     //this.float();
     if (this.mode == "float") {
       this.float()
-    } else if (this.mode == "bounce"){
-      this.bounce()
+    } else if (this.mode == "orbit"){
+      this.orbit()
     } else if (this.mode == "drop"){
       this.bounce()
     } else {

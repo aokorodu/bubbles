@@ -553,10 +553,10 @@ class App {
       this.gravity = this.zeroG;
     })
 
-    const bounceButton = document.getElementById("bounce");
+    const bounceButton = document.getElementById("orbit");
     bounceButton.addEventListener("click", () => {
-      console.log("bounce click")
-      this.changeMode("bounce");
+      console.log("orbit click")
+      this.changeMode("orbit");
       this.gravity = this.zeroG;
     })
 
@@ -742,14 +742,24 @@ class Ball {
     }
   }
 
+  orbit(){
+    const targetV = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](250, 125);
+    targetV.sub(this.location);
+    targetV.normalize();
+    targetV.multiply(.1);
+    this.move(targetV);
+    this.velocity.multiply(.999);
+
+  }
+
 
 
   update() {
     //this.float();
     if (this.mode == "float") {
       this.float()
-    } else if (this.mode == "bounce"){
-      this.bounce()
+    } else if (this.mode == "orbit"){
+      this.orbit()
     } else if (this.mode == "drop"){
       this.bounce()
     } else {
