@@ -12,6 +12,7 @@
 
 <body>
   <div id="container">
+    <div>- THIS IS A WORK IN PROGRESS -</div>
     <div id="contentHolder">
       <div id="seaLine"></div>
       <div id="shipHolder">
@@ -49,11 +50,12 @@
       </div>
     </div>
     <div id="navHolder">
-      <div id="float" class="navButton">float</div>
-      <div id="bounce" class="navButton">bounce</div>
-      <div id="drop" class="navButton">drop</div>
-      <div id="flow" class="navButton">flow</div>
+      <button id="float" class="navButton activeButton">float</button>
+      <button id="orbit" class="navButton">orbit</button>
+      <button id="drop" class="navButton">drop</button>
+      <button id="flow" class="navButton">flow</button>
     </div>
+    <div class="description">the image above is actually made up of three svgs - one each for the sky, the ship, and the sea. the ship is animated using basic CSS transitions and keyframe animations, while the bubble particles are animated using a requestAnimationFrame call to a draw method that updates the position of the bubbles based on the selected animation state. </div>
   </div>
   <script src="dist/main.js" async defer></script>
 </body>

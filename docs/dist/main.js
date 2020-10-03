@@ -106,7 +106,7 @@ ___CSS_LOADER_EXPORT___.push([module.i, "@import url(https://fonts.googleapis.co
 ___CSS_LOADER_EXPORT___.push([module.i, "@import url(https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap);"]);
 ___CSS_LOADER_EXPORT___.push([module.i, "@import url(https://fonts.googleapis.com/css2?family=Cousine:wght@400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.i, "* {\n  box-sizing: border-box;\n  font-family: \"Rubik\", sans-serif;\n  margin: 0;\n  padding: 0; }\n\n#container {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  width: 100vw;\n  height: 100vh;\n  align-items: center;\n  justify-content: center;\n  overflow: hidden; }\n\n#contentHolder {\n  position: relative;\n  width: 500px;\n  height: 500px;\n  overflow: hidden;\n  background-color: white;\n  border-radius: 10px;\n  border: 2px solid #eaeaea; }\n\n#shipHolder {\n  position: absolute;\n  width: 500px;\n  height: 250px;\n  background-color: white;\n  overflow: hidden; }\n\n#sky {\n  position: absolute; }\n\n#vanguardShip {\n  position: absolute;\n  transform: translate(0px, 60px) rotate(0);\n  transform-origin: center bottom; }\n\n#particleHolder {\n  position: absolute;\n  width: 500px;\n  height: 250px;\n  overflow: hidden;\n  transform: translateY(250px); }\n\n#particles {\n  position: absolute;\n  width: 500px;\n  height: 250px; }\n\n#seaLine {\n  position: absolute;\n  width: 500px;\n  border-bottom: 1px solid #ABD4F5;\n  left: 50%;\n  top: 250px;\n  transform: translateX(-50%);\n  transition: width 5s;\n  z-index: 10; }\n\n@keyframes wobble {\n  0% {\n    transform: translate(100px, 64px) rotate(1deg); }\n  50% {\n    transform: translate(100px, 68px) rotate(-1deg); }\n  100% {\n    transform: translate(100px, 64px) rotate(1deg); } }\n\n@keyframes floating {\n  from {\n    transform: translate(-300px, 64px) rotate(0deg); }\n  to {\n    transform: translate(100px, 64px) rotate(1deg); } }\n\n.floatClass {\n  animation: floating, wobble;\n  animation-duration: 3s, 6s;\n  animation-delay: 0s, 3s;\n  animation-fill-mode: forwards, forwards;\n  animation-timing-function: ease-out, ease-in-out;\n  animation-direction: forwards, alternate;\n  animation-iteration-count: 1, infinite; }\n\n#navHolder {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  margin: 20px; }\n\n.navButton {\n  width: 100px;\n  padding: 10px;\n  border: 2px solid #eaeaea;\n  border-radius: 5px;\n  margin: 10px;\n  text-align: center; }\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.i, "* {\n  box-sizing: border-box;\n  font-family: \"Rubik\", sans-serif;\n  margin: 0;\n  padding: 0; }\n\n#container {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  width: 100vw;\n  height: 100vh;\n  align-items: center;\n  justify-content: center;\n  overflow: hidden; }\n\n#contentHolder {\n  position: relative;\n  width: 500px;\n  height: 500px;\n  overflow: hidden;\n  background-color: white;\n  border-radius: 10px;\n  border: 2px solid #eaeaea; }\n\n#shipHolder {\n  position: absolute;\n  width: 500px;\n  height: 250px;\n  background-color: white;\n  overflow: hidden; }\n\n#sky {\n  position: absolute; }\n\n#vanguardShip {\n  position: absolute;\n  transform: translate(0px, 60px) rotate(0);\n  transform-origin: center bottom; }\n\n#particleHolder {\n  position: absolute;\n  width: 500px;\n  height: 250px;\n  overflow: hidden;\n  transform: translateY(250px); }\n\n#particles {\n  position: absolute;\n  width: 500px;\n  height: 250px; }\n\n#seaLine {\n  position: absolute;\n  width: 500px;\n  border-bottom: 1px solid #ABD4F5;\n  left: 50%;\n  top: 250px;\n  transform: translateX(-50%);\n  transition: width 5s;\n  z-index: 10; }\n\n@keyframes wobble {\n  0% {\n    transform: translate(100px, 64px) rotate(1deg); }\n  50% {\n    transform: translate(100px, 68px) rotate(-1deg); }\n  100% {\n    transform: translate(100px, 64px) rotate(1deg); } }\n\n@keyframes floating {\n  from {\n    transform: translate(-300px, 64px) rotate(0deg); }\n  to {\n    transform: translate(100px, 64px) rotate(1deg); } }\n\n.floatClass {\n  animation: floating, wobble;\n  animation-duration: 3s, 6s;\n  animation-delay: 0s, 3s;\n  animation-fill-mode: forwards, forwards;\n  animation-timing-function: ease-out, ease-in-out;\n  animation-direction: forwards, alternate;\n  animation-iteration-count: 1, infinite; }\n\n#navHolder {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  margin: 20px; }\n\n.navButton {\n  width: 100px;\n  padding: 5px;\n  border: 2px solid #eaeaea;\n  border-radius: 5px;\n  margin: 10px;\n  text-align: center;\n  background-color: #f0f0f0;\n  font-size: 12px; }\n\n.activeButton {\n  background-color: #272727;\n  color: #f0f0f0; }\n\n.description {\n  width: 450px;\n  text-align: justify;\n  color: rgba(0, 0, 0, 0.7);\n  font-size: 14px; }\n", ""]);
 // Exports
 /* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
 
@@ -536,6 +536,13 @@ class App {
     this.initNav();
     this.draw();
 
+    const buttons = document.querySelectorAll('.navButton');
+    for(const button of buttons){
+      button.addEventListener("click", ()=>{
+        console.log('clicked: ', button.innerHTML)
+      })
+    }
+
   }
 
   initNav() {
@@ -546,10 +553,10 @@ class App {
       this.gravity = this.zeroG;
     })
 
-    const bounceButton = document.getElementById("bounce");
+    const bounceButton = document.getElementById("orbit");
     bounceButton.addEventListener("click", () => {
-      console.log("bounce click")
-      this.changeMode("bounce");
+      console.log("orbit click")
+      this.changeMode("orbit");
       this.gravity = this.zeroG;
     })
 
@@ -735,14 +742,24 @@ class Ball {
     }
   }
 
+  orbit(){
+    const targetV = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](250, 125);
+    targetV.sub(this.location);
+    targetV.normalize();
+    targetV.multiply(.1);
+    this.move(targetV);
+    this.velocity.multiply(.999);
+
+  }
+
 
 
   update() {
     //this.float();
     if (this.mode == "float") {
       this.float()
-    } else if (this.mode == "bounce"){
-      this.bounce()
+    } else if (this.mode == "orbit"){
+      this.orbit()
     } else if (this.mode == "drop"){
       this.bounce()
     } else {
