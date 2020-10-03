@@ -16,54 +16,56 @@ export class App {
     this.twoG = new PVector(0, 2);
     this.lowG = new PVector(0, .5);
     this.gravity = this.zeroG;
-
+    this.navButtons = document.querySelectorAll('.navButton');
   }
 
   init() {
     this.buildParticles();
-    this.initNav();
     this.draw();
-
-    const buttons = document.querySelectorAll('.navButton');
-    for(const button of buttons){
-      button.addEventListener("click", ()=>{
-        console.log('clicked: ', button.innerHTML)
+    for(const button of this.navButtons){
+      button.addEventListener("click", (e)=>{
+        this.changeMode(e.target.innerText);
+        this.activateSelectedButton(e.target);
       })
     }
-
   }
 
-  initNav() {
-    const floatButton = document.getElementById("float");
-    floatButton.addEventListener("click", () => {
-      console.log("float click")
-      this.changeMode("float");
-      this.gravity = this.zeroG;
-    })
-
-    const bounceButton = document.getElementById("orbit");
-    bounceButton.addEventListener("click", () => {
-      console.log("orbit click")
-      this.changeMode("orbit");
-      this.gravity = this.zeroG;
-    })
-
-    const flowButton = document.getElementById("flow");
-    flowButton.addEventListener("click", () => {
-      console.log("flow click")
-      this.changeMode("flow");
-      this.gravity = this.lowG;
-    })
-
-    const dropButton = document.getElementById("drop");
-    dropButton.addEventListener("click", () => {
-      console.log("drop click")
-      this.changeMode("drop");
-      this.gravity = this.oneG;
-    })
+  activateSelectedButton(target){
+    for(const button of this.navButtons){
+      if (button == target){
+        console.log('clicked button is ', target.innerText)
+        button.classList.add("activeButton");
+      } else {
+        button.classList.remove("activeButton");
+      }
+    }
   }
 
   changeMode(newMode) {
+    switch(newMode){
+      case "float":
+        this.updateParticlesMode("float");
+        this.gravity = this.zeroG;
+      break;
+
+      case "orbit":
+        this.updateParticlesMode("orbit");
+        this.gravity = this.zeroG;
+      break;
+
+      case "drop":
+        this.updateParticlesMode("drop");
+        this.gravity = this.oneG;
+      break;
+
+      case "flow":
+        this.updateParticlesMode("flow");
+        this.gravity = this.lowG;
+      break;
+    }
+  }
+
+  updateParticlesMode(newMode){
     for (let i = 0; i < this.totalParticles; i++) {
       this.particles[i].changeMode(newMode);
     }
