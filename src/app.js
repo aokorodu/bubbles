@@ -24,6 +24,13 @@ export class App {
     this.initNav();
     this.draw();
 
+    const buttons = document.querySelectorAll('.navButton');
+    for(const button of buttons){
+      button.addEventListener("click", ()=>{
+        console.log('clicked: ', button.innerHTML)
+      })
+    }
+
   }
 
   initNav() {

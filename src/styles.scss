@@ -123,9 +123,23 @@ $box-size: 500px;
 
 .navButton{
   width: 100px;
-  padding: 10px;
+  padding: 5px;
   border: 2px solid #eaeaea;
   border-radius: 5px;
   margin: 10px;
   text-align: center;
+  background-color: #f0f0f0;
+  font-size: 12px;
+}
+
+.activeButton{
+  background-color: #272727;
+  color: #f0f0f0;
+}
+
+.description {
+  width: 450px;
+  text-align: justify;
+  color: rgba(0,0,0,.7);
+  font-size: 14px;
 }
