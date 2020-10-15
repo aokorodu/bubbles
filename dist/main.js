@@ -652,7 +652,7 @@ class Ball {
     this.spinAngle = 0;
     this.spinning = false;
     this.spinDx = 0;
-    this.spinSpeed = 0.03;//Math.random() * .03 + 0.01;
+    this.spinSpeed = Math.random() * .03 + 0.01;
   }
 
   init(svg, maxX, maxY) {
