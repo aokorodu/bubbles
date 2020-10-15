@@ -652,7 +652,8 @@ class Ball {
     this.spinAngle = 0;
     this.spinning = false;
     this.spinDx = 0;
-    this.spinSpeed = Math.random() * .03 + 0.01;
+    this.spinSpeed = 0.03; //Math.random() * .03 + 0.01;
+    this.spinRadius = 0;
   }
 
   init(svg, maxX, maxY) {
@@ -705,8 +706,13 @@ class Ball {
     } else if (this.mode == "flow") {
       this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](this.velocity.x, Math.random() * 4 - 2);
     } else if(this.mode == "spin") {
-      this.spinAngle = 0;
+      //this.spinAngle = 0;
       this.spinDx = this.location.x - 250;
+      this.spinRadius = Math.abs(this.spinDx) + Math.abs(Math.random() * this.spinDx);
+      this.spinAngle = Math.random() > .5 ? Math.acos(this.spinDx/this.spinRadius) : Math.PI*2 - Math.acos(this.spinDx/this.spinRadius);
+      //if(Math.random() > .5) this.spinAngle += 2 * (Math.PI - this.spinAngle);
+      //console.log('cos:', this.spinDx/this.spinRadius)
+      console.log('angle: ', this.spinAngle * 180/Math.PI);
       this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](0, 0);
     }
   }
@@ -771,7 +777,7 @@ class Ball {
     this.spinAngle += this.spinSpeed;
     if(this.spinAngle > 2*Math.PI) this.spinAngle -= (Math.PI * 2);
     const spinCos = Math.cos(this.spinAngle);
-    this.location.x = 250 + spinCos * this.spinDx;
+    this.location.x = 250 + spinCos * this.spinRadius;
     const newR = this.defaultR + this.defaultR/4 * Math.sin(this.spinAngle);
     this.circle.setAttribute("r", newR);
   }
