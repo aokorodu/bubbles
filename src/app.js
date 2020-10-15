@@ -62,6 +62,11 @@ export class App {
         this.updateParticlesMode("flow");
         this.gravity = this.lowG;
       break;
+
+      case "spin":
+        this.updateParticlesMode("spin");
+        this.gravity = this.zeroG;
+      break;
     }
   }
 

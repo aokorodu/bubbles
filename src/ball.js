@@ -12,7 +12,8 @@ export class Ball {
     this.cx = this.location.x;
     this.cy = this.location.y;
     this.r = 2 + Math.ceil(Math.random() * 6);
-    this.opacity = this.r/25;
+    this.defaultR = this.r;
+    this.opacity = this.r / 25;
     this.circle;
     this.fill = "#ffffff";
     this.stroke = "#ffffff";
@@ -20,7 +21,11 @@ export class Ball {
     this.ns = "http://www.w3.org/2000/svg";
     this.mode = "bounce";
     this.friction = .95 + Math.random() * .045;
-
+    this.orbitTarget = new PVector(250, 125);
+    this.spinAngle = 0;
+    this.spinning = false;
+    this.spinDx = 0;
+    this.spinSpeed = Math.random() * .03 + 0.01;
   }
 
   init(svg, maxX, maxY) {
@@ -72,6 +77,10 @@ export class Ball {
       this.velocity = new PVector(this.velocity.x, Math.random() * 4 - 2);
     } else if (this.mode == "flow") {
       this.velocity = new PVector(this.velocity.x, Math.random() * 4 - 2);
+    } else if(this.mode == "spin") {
+      this.spinAngle = 0;
+      this.spinDx = this.location.x - 250;
+      this.velocity = new PVector(0, 0);
     }
   }
 
@@ -115,21 +124,29 @@ export class Ball {
   flow() {
     if (this.location.y > 250) {
       this.location.y = 250;
-      this.location.x = this.maxX/2;
-      const yVel = Math.random() * 8+ 8;
+      this.location.x = this.maxX / 2;
+      const yVel = Math.random() * 8 + 8;
       this.velocity = new PVector(Math.random() * 2 - 1, Math.random() * 4 - 2);
       this.move(new PVector(Math.random() * 1 - .5, -yVel));
     }
   }
 
-  orbit(){
+  orbit() {
     const targetV = new PVector(250, 125);
     targetV.sub(this.location);
     targetV.normalize();
     targetV.multiply(.1);
     this.move(targetV);
     this.velocity.multiply(.999);
+  }
 
+  spin() {
+    this.spinAngle += this.spinSpeed;
+    if(this.spinAngle > 2*Math.PI) this.spinAngle -= (Math.PI * 2);
+    const spinCos = Math.cos(this.spinAngle);
+    this.location.x = 250 + spinCos * this.spinDx;
+    const newR = this.defaultR + this.defaultR/4 * Math.sin(this.spinAngle);
+    this.circle.setAttribute("r", newR);
   }
 
 
@@ -138,11 +155,13 @@ export class Ball {
     //this.float();
     if (this.mode == "float") {
       this.float()
-    } else if (this.mode == "orbit"){
+    } else if (this.mode == "orbit") {
       this.orbit()
-    } else if (this.mode == "drop"){
+    } else if (this.mode == "drop") {
       this.bounce()
-    } else {
+    } else if (this.mode == "spin") {
+      this.spin()
+    }else {
       this.flow();
     }
     this.draw();
