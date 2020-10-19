@@ -17,6 +17,7 @@ export class App {
     this.lowG = new PVector(0, .5);
     this.gravity = this.zeroG;
     this.navButtons = document.querySelectorAll('.navButton');
+    this.compButton = document.querySelector('button-component');
   }
 
   init() {
@@ -28,6 +29,11 @@ export class App {
         this.activateSelectedButton(e.target);
       })
     }
+
+    this.compButton.addEventListener("click", (e)=>{
+      console.log('button-component clicked');
+      this.compButton.activate(!this.compButton.active);
+    })
   }
 
   activateSelectedButton(target){

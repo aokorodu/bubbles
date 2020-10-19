@@ -529,6 +529,7 @@ class App {
     this.lowG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0, .5);
     this.gravity = this.zeroG;
     this.navButtons = document.querySelectorAll('.navButton');
+    this.compButton = document.querySelector('button-component');
   }
 
   init() {
@@ -540,6 +541,11 @@ class App {
         this.activateSelectedButton(e.target);
       })
     }
+
+    this.compButton.addEventListener("click", (e)=>{
+      console.log('button-component clicked');
+      this.compButton.activate(!this.compButton.active);
+    })
   }
 
   activateSelectedButton(target){
@@ -706,13 +712,9 @@ class Ball {
     } else if (this.mode == "flow") {
       this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](this.velocity.x, Math.random() * 4 - 2);
     } else if(this.mode == "spin") {
-      //this.spinAngle = 0;
       this.spinDx = this.location.x - 250;
       this.spinRadius = Math.abs(this.spinDx) + Math.abs(Math.random() * this.spinDx);
       this.spinAngle = Math.random() > .5 ? Math.acos(this.spinDx/this.spinRadius) : Math.PI*2 - Math.acos(this.spinDx/this.spinRadius);
-      //if(Math.random() > .5) this.spinAngle += 2 * (Math.PI - this.spinAngle);
-      //console.log('cos:', this.spinDx/this.spinRadius)
-      console.log('angle: ', this.spinAngle * 180/Math.PI);
       this.velocity = new _pvector__WEBPACK_IMPORTED_MODULE_0__["PVector"](0, 0);
     }
   }
@@ -803,6 +805,69 @@ class Ball {
 
 /***/ }),
 
+/***/ "./src/button-component.js":
+/*!*********************************!*\
+  !*** ./src/button-component.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+const template = document.createElement('template');
+template.innerHTML = `
+  <style>
+  .nav-button {
+    width: 75px;
+    padding: 5px;
+    border: 2px solid #eaeaea;
+    border-radius: 5px;
+    margin: 10px;
+    text-align: center;
+    background-color: #f0f0f0;
+    font-size: 12px;
+    transition: background-color 333ms;
+  }
+  
+  .active-button {
+    background-color: #272727;
+    color: #f0f0f0;
+  }
+  </style>
+  <button class="nav-button">
+    <slot/>
+  </button>`;
+
+
+class ButtonComponent extends HTMLElement {
+  constructor(){
+    super();
+
+    this.active = false;
+
+    this.attachShadow({mode: 'open'});
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    this.init()
+  }
+
+  init(){
+   console.log('init button component')
+  }
+
+  activate(bool){
+    this.active = bool;
+    const button = this.shadowRoot.querySelector(".nav-button");
+    if(this.active){
+      button.classList.add("active-button");
+    } else {
+      button.classList.remove("active-button");
+    }
+  }
+}
+
+window.customElements.define('button-component', ButtonComponent);
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -815,6 +880,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles.scss */ "./src/styles.scss");
 /* harmony import */ var _styles_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_styles_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app */ "./src/app.js");
+/* harmony import */ var _button_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./button-component */ "./src/button-component.js");
+/* harmony import */ var _button_component__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_button_component__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 

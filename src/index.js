@@ -1,5 +1,6 @@
 import "./styles.scss";
 import {App} from './app';
+import { ButtonComponent } from './button-component';
 
 console.log('hello world')
 
