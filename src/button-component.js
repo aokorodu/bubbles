@@ -19,38 +19,37 @@ template.innerHTML = `
   }
   </style>
   <button class="nav-button">
-    <slot/>
   </button>`;
 
 
 class ButtonComponent extends HTMLElement {
   constructor(){
     super();
-
-    this.active = false;
-
+    this.title = this.getAttribute("name");
+    this.active = this.getAttribute("active") != null ? true : false;
+    
     this.attachShadow({mode: 'open'});
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.init()
-  }
+    this.button = this.shadowRoot.querySelector(".nav-button");
+    this.button.innerText = this.title;
 
-  init(){
-   console.log('init button component')
+    this.activate(this.active)
+    
   }
 
   activate(bool){
     this.active = bool;
-    const button = this.shadowRoot.querySelector(".nav-button");
+    
     if(this.active){
-      button.classList.add("active-button");
+      this.button.classList.add("active-button");
     } else {
-      button.classList.remove("active-button");
+      this.button.classList.remove("active-button");
     }
   }
 
   getValue(){
-    return this.shadowRoot.querySelector(".nav-button").innerHTML;
+    return this.title;
   }
 }
 

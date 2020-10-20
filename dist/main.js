@@ -528,8 +528,8 @@ class App {
     this.twoG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0, 2);
     this.lowG = new _pvector__WEBPACK_IMPORTED_MODULE_1__["PVector"](0, .5);
     this.gravity = this.zeroG;
-    this.navButtons = document.querySelectorAll('.navButton');
-    this.compButton = document.querySelector('button-component');
+    this.navButtons = document.getElementsByTagName('button-component');
+    //this.compButton = document.querySelector('button-component');
   }
 
   init() {
@@ -537,24 +537,19 @@ class App {
     this.draw();
     for(const button of this.navButtons){
       button.addEventListener("click", (e)=>{
-        this.changeMode(e.target.innerText);
-        this.activateSelectedButton(e.target);
+        this.changeMode(button.getValue());
+        this.activateSelectedButton(button);
       })
     }
-
-    this.compButton.addEventListener("click", (e)=>{
-      console.log('button-component clicked');
-      this.compButton.activate(!this.compButton.active);
-    })
   }
 
   activateSelectedButton(target){
     for(const button of this.navButtons){
       if (button == target){
-        console.log('clicked button is ', target.innerText)
-        button.classList.add("activeButton");
+        console.log('clicked button is ', button.getValue())
+        button.activate(true);
       } else {
-        button.classList.remove("activeButton");
+        button.activate(false)
       }
     }
   }
@@ -833,34 +828,37 @@ template.innerHTML = `
   }
   </style>
   <button class="nav-button">
-    <slot/>
   </button>`;
 
 
 class ButtonComponent extends HTMLElement {
   constructor(){
     super();
-
-    this.active = false;
-
+    this.title = this.getAttribute("name");
+    this.active = this.getAttribute("active") != null ? true : false;
+    
     this.attachShadow({mode: 'open'});
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.init()
-  }
+    this.button = this.shadowRoot.querySelector(".nav-button");
+    this.button.innerText = this.title;
 
-  init(){
-   console.log('init button component')
+    this.activate(this.active)
+    
   }
 
   activate(bool){
     this.active = bool;
-    const button = this.shadowRoot.querySelector(".nav-button");
+    
     if(this.active){
-      button.classList.add("active-button");
+      this.button.classList.add("active-button");
     } else {
-      button.classList.remove("active-button");
+      this.button.classList.remove("active-button");
     }
+  }
+
+  getValue(){
+    return this.title;
   }
 }
 

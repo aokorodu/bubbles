@@ -16,8 +16,8 @@ export class App {
     this.twoG = new PVector(0, 2);
     this.lowG = new PVector(0, .5);
     this.gravity = this.zeroG;
-    this.navButtons = document.querySelectorAll('.navButton');
-    this.compButton = document.querySelector('button-component');
+    this.navButtons = document.getElementsByTagName('button-component');
+    //this.compButton = document.querySelector('button-component');
   }
 
   init() {
@@ -25,24 +25,19 @@ export class App {
     this.draw();
     for(const button of this.navButtons){
       button.addEventListener("click", (e)=>{
-        this.changeMode(e.target.innerText);
-        this.activateSelectedButton(e.target);
+        this.changeMode(button.getValue());
+        this.activateSelectedButton(button);
       })
     }
-
-    this.compButton.addEventListener("click", (e)=>{
-      console.log('button-component clicked');
-      this.compButton.activate(!this.compButton.active);
-    })
   }
 
   activateSelectedButton(target){
     for(const button of this.navButtons){
       if (button == target){
-        console.log('clicked button is ', target.innerText)
-        button.classList.add("activeButton");
+        console.log('clicked button is ', button.getValue())
+        button.activate(true);
       } else {
-        button.classList.remove("activeButton");
+        button.activate(false)
       }
     }
   }
