@@ -23,17 +23,17 @@ export class App {
   init() {
     this.buildParticles();
     this.draw();
-    for(const button of this.navButtons){
-      button.addEventListener("click", (e)=>{
+    for (const button of this.navButtons) {
+      button.addEventListener("click", (e) => {
         this.changeMode(button.getValue());
         this.activateSelectedButton(button);
       })
     }
   }
 
-  activateSelectedButton(target){
-    for(const button of this.navButtons){
-      if (button == target){
+  activateSelectedButton(target) {
+    for (const button of this.navButtons) {
+      if (button == target) {
         console.log('clicked button is ', button.getValue())
         button.activate(true);
       } else {
@@ -43,35 +43,35 @@ export class App {
   }
 
   changeMode(newMode) {
-    switch(newMode){
+    switch (newMode) {
       case "float":
         this.updateParticlesMode("float");
         this.gravity = this.zeroG;
-      break;
+        break;
 
       case "orbit":
         this.updateParticlesMode("orbit");
         this.gravity = this.zeroG;
-      break;
+        break;
 
       case "drop":
         this.updateParticlesMode("drop");
         this.gravity = this.oneG;
-      break;
+        break;
 
       case "flow":
         this.updateParticlesMode("flow");
         this.gravity = this.lowG;
-      break;
+        break;
 
       case "spin":
         this.updateParticlesMode("spin");
         this.gravity = this.zeroG;
-      break;
+        break;
     }
   }
 
-  updateParticlesMode(newMode){
+  updateParticlesMode(newMode) {
     for (let i = 0; i < this.totalParticles; i++) {
       this.particles[i].changeMode(newMode);
     }
@@ -86,6 +86,12 @@ export class App {
       b.changeMode("float");
       this.particles.push(b);
     }
+
+    this.particleSVG.addEventListener("mousemove", (e) => {
+      const x = e.offsetX;
+      const y = e.offsetY;
+      console.log(`${x}, ${y}`);
+    })
   }
 
   stepOne() {

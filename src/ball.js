@@ -151,8 +151,6 @@ export class Ball {
     this.circle.setAttribute("r", newR);
   }
 
-
-
   update() {
     //this.float();
     if (this.mode == "float") {
